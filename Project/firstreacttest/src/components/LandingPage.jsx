@@ -7,7 +7,7 @@ import { database } from '../firebase';
 import {query, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, orderBy} from 'firebase/firestore'
 uuidv4();
 
-const UserWrapper = () => {
+const LandingPage = () => {
   //Declare and initialize an empty users array along with its setter function
   const [users, setUsers] = useState([]);
 
@@ -61,21 +61,12 @@ const UserWrapper = () => {
   }
 
   return (
-    <div className='UserWrapper'>
+    <div className='LandingPage'>
       <h1>A.R.M.</h1>
       <h4>Assistance Request Mechanism</h4>
       <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
-      
-      <UserForm addUser={addUser} />
 
-      {
-      //It may seem simple one day, but I felt extreme joy when the next 4 lines worked first try for me.
-      //By the way, I don't know how to comment in the return statement as of writing this.
-      }
-      <h4>There {users.length === 1 ? 
-      " is " + users.length + " person " :
-      " are " + users.length + " people "}
-      in the queue:</h4>
+      <UserForm addUser={addUser} />
 
       {//Map the users array normally unless a user.isEditing is true.
       //If so, replace that entry in the queue with an edit box.
@@ -91,4 +82,4 @@ const UserWrapper = () => {
   )
 }
 
-export default UserWrapper
+export default LandingPage

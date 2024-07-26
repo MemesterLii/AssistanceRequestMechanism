@@ -7,7 +7,7 @@ import { database } from '../firebase';
 import {query, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, orderBy} from 'firebase/firestore'
 uuidv4();
 
-const UserWrapper = () => {
+const HostPage = () => {
   //Declare and initialize an empty users array along with its setter function
   const [users, setUsers] = useState([]);
 
@@ -61,7 +61,7 @@ const UserWrapper = () => {
   }
 
   return (
-    <div className='UserWrapper'>
+    <div className='HostPage'>
       <h1>A.R.M.</h1>
       <h4>Assistance Request Mechanism</h4>
       <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
@@ -91,4 +91,4 @@ const UserWrapper = () => {
   )
 }
 
-export default UserWrapper
+export default HostPage

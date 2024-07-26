@@ -1,10 +1,14 @@
 import './App.css'
-import UserWrapper from './components/UserWrapper'
+import LandingPage from './components/LandingPage'
+import HostPage from './components/HostPage'
+import GuestPage from './components/GuestPage'
 
 function App() {
   return (
     <div className="App">
-      <UserWrapper />
+      <LandingPage />
+
+      <h4>All Time Visit Counter: PLACEHOLDER</h4>
     </div>
   )
 }
