@@ -7,7 +7,7 @@ import { database } from '../firebase';
 import {query, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, orderBy} from 'firebase/firestore'
 uuidv4();
 
-const GuestPage = () => {
+const GuestPage = ({roomID}) => {
   //Declare and initialize an empty users array along with its setter function
   const [users, setUsers] = useState([]);
 
@@ -66,6 +66,8 @@ const GuestPage = () => {
       <h4>Assistance Request Mechanism</h4>
       <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
       
+      <h4>This is the Guest Page</h4>
+
       <UserForm addUser={addUser} />
 
       {

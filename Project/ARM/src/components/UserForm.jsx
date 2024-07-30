@@ -18,7 +18,7 @@ const UserForm = ({addUser}) => {
   return (
     <form className="UserForm" onSubmit={handleSubmit}>
       <input type="text" className="user-input" value={newUser} placeholder="Enter Name" onChange={(e) => setNewUser(e.target.value)}/>
-      <button type="submit" className="user-btn">Request Help</button>
+      <button type="submit" className="submit-btn">Request Help</button>
     </form>
   )
 }

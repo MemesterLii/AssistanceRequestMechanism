@@ -1,63 +1,108 @@
 import React, {useState, useEffect} from 'react'
 import UserForm from './UserForm'
+import RoomForm from './RoomForm'
 import EditUserForm from './EditUserForm'
 import {v4 as uuidv4} from 'uuid';
 import User from './User';
 import { database } from '../firebase';
-import {query, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, orderBy} from 'firebase/firestore'
+import {query, collection, onSnapshot, addDoc, getDoc, setDoc, updateDoc, deleteDoc, doc, orderBy} from 'firebase/firestore'
 uuidv4();
 
-const LandingPage = () => {
-  //Declare and initialize an empty users array along with its setter function
-  const [users, setUsers] = useState([]);
+const LandingPage = ({setRoomID, setIsHost}) => {
+  const [inputtingRoomCode, setInputtingRoomCode] = useState(false);
+  const [rooms, setRooms] = useState([]);
 
-  //Read user data from Firebase
+  //Updates rooms array with data from Firebase
+  //NOTE: useEffect() is like Unity's Update function. It runs every time the virtual DOM renders.
   useEffect(() => {
-    const data = query(collection(database, 'UsersCollection'), orderBy("timestamp"))
+    const fetchData = () => {
+      const data = query(collection(database, 'Rooms'))
 
-    const updateUsers = onSnapshot(data, (querySnapshot) => {
-      let tempArray = []
-      querySnapshot.forEach((item) => {
-        tempArray.push({...item.data(), id: item.id})
+      const updateRooms = onSnapshot(data, (querySnapshot) => {
+        let tempArray = []
+        querySnapshot.forEach((item) => {
+          tempArray.push(item.id)
+        })
+        setRooms(tempArray)
       })
-      setUsers(tempArray)
-    })
-
-    return () => updateUsers()
+  
+      return () => updateRooms()
+    }
+    fetchData();
   }, [])
 
-  //Given a user object, set the users array to all previous user objects + a new object using user's properties
-  //Note: the id of the new object in the users array is randomly generated using uuidv4()
-  const addUser = async (user) => {
-    //Updates Firebase data
-    await addDoc(collection(database, "UsersCollection"), {
-      name: user,
-      //I tried using firebase.firestore.Timestamp.now() at first but I think it's
-      //a Java function, not a JavaScript function. I forgot Firebase is used in
-      //other programming languages, too. Now, I just use JavaScript's Date.now().
-      timestamp: Date.now()
-    })
+  const updateLocalStorage = (name, id, roomID) => {
+    if (name !== null){
+      localStorage.setItem(`LocalName`, name);
+    }
+    localStorage.setItem(`LocalID`, id);
+    localStorage.setItem(`LocalRoomID`, roomID);
   }
 
-  //Given a user id, filter out any user with an id matching the provided id
-  const deleteUser = async (id) => {
-    await deleteDoc(doc(database, "UsersCollection", id))
+  const generateRoomID = () => {
+    let newRoomID = Math.floor(Math.random() * 10000)
+
+    newRoomID = (newRoomID < 10) ? "000" + newRoomID :
+    (newRoomID < 100) ? "00" + newRoomID :
+    (newRoomID < 1000) ? "0" + newRoomID :
+    newRoomID.toString();
+    
+    return newRoomID;
+  }
+
+  const roomExists = (newRoomID) => {
+    let exists = false;
+    rooms.forEach(roomID => {
+      if(newRoomID == roomID){
+        exists = true;
+      }
+    });
+    return exists;
+  }
+
+  const addRoom = async () => {
+    let newRoomID = generateRoomID();
+    while (roomExists(newRoomID)){
+      newRoomID = generateRoomID();
+    }
+
+    const newHostID = uuidv4();
+    updateLocalStorage(null, newHostID, newRoomID);
+
+    await setDoc(doc(database, "Rooms", newRoomID), {
+      HostID: newHostID,
+      Users: []
+    })
+
+    return newRoomID;
+  }
+
+  const isHostOfRoom = async () => {
+    const localID = localStorage.getItem(`LocalID`);
+    const localRoomID = localStorage.getItem(`LocalRoomID`);
+    const room = await getDoc(doc(database, "Rooms", localRoomID));
+
+    console.log(room);
+    
+    if (localID == room.HostID){
+      return true;
+    }
+    return false;
+  }
+
+  const hostSubmit = e => {
+    e.preventDefault();
+    const roomID = addRoom();
+    setRoomID(roomID);
+    setIsHost(isHostOfRoom());
+    console.log("setted host")
+    //reload to skip past rendering error, idk why
+    //location.reload();
   }
   
-  //Given a user id, toggle the isEditing property of the user with the matching id
-  const toggleEditing = id => {
-    setUsers(users.map(user => user.id === id ? {... user, isEditing: !user.isEditing} : user))
-  }
-
-  //Given a new name and an id, replace the name of the matching id user object in the users array with the new name
-  //Then, set all other user objects the same
-  const editUser = async (name, id) => {
-    //Note: this line is required to prevent field clearing upon submitting an unchanged name
-    setUsers(users.map(user => user.id === id ? {... user, name, isEditing: !user.isEditing} : user))
-    //Updates Firebase data
-    await updateDoc(doc(database, "UsersCollection", id), {
-      name: name
-    })
+  const joinSubmit = e => {
+    e.preventDefault();
+    setInputtingRoomCode(true);
   }
 
   return (
@@ -66,18 +111,15 @@ const LandingPage = () => {
       <h4>Assistance Request Mechanism</h4>
       <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
 
-      <UserForm addUser={addUser} />
+      <form onSubmit={hostSubmit}>
+        <button type="submit" className="host-join-btn">Host a Room</button>
+      </form>
 
-      {//Map the users array normally unless a user.isEditing is true.
-      //If so, replace that entry in the queue with an edit box.
+      {inputtingRoomCode ? <RoomForm /> :
+      <form onSubmit={joinSubmit}>
+        <button type="submit" className="host-join-btn">Join a Room</button>
+      </form>}
 
-      //Note: the index parameter is unnecessary for the website's proper functioning, but it fixes an error in the console log.
-      users.map(
-        (user, index) => 
-        (user.isEditing ? 
-        (<EditUserForm editUser={editUser} oldUser={user}/>) : 
-        (<User user={user} position={users.indexOf(user) + 1} deleteUser={deleteUser} toggleEditing={toggleEditing} key={index}/>))
-      )}
     </div>
   )
 }

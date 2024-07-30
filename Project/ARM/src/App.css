@@ -18,6 +18,12 @@ body {
   text-align: center;
 }
 
+#roomID {
+  color: #fff;
+  margin: 2rem;
+  font-size: 3rem;
+}
+
 h1 {
   color: #fff;
   margin-bottom: 0.5rem;
@@ -66,6 +72,11 @@ h4 {
   width: 100%;
 }
 
+.RoomForm {
+  width: 100%;
+  margin-top: 3rem;
+}
+
 .user-input {
   outline: none;
   background: none;
@@ -82,7 +93,7 @@ h4 {
   color: #8758ff;
 }
 
-.user-btn {
+.submit-btn {
   background: #8758ff;
   color: #fff;
   border: none;
@@ -91,7 +102,50 @@ h4 {
   cursor: pointer;
 }
 
+/*Removes stinky arrows in room form input field*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.host-join-btn {
+  background: #8758ff;
+  color: #fff;
+  border: none;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 3rem;
+  margin-right: 11.5rem;
+  margin-top: 3rem;
+  cursor: pointer;
+}
+
 .User {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #8758ff;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.UserHostView {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #8758ff;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.UserGuestView {
   display: flex;
   justify-content: space-between;
   align-items: center;

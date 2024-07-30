@@ -27,7 +27,8 @@ const UserWrapper = () => {
   }, [])
 
   //Given a user object, set the users array to all previous user objects + a new object using user's properties
-  //Note: the id of the new object in the users array is randomly generated using uuidv4()
+  //Note: the id of the new object in the users array is automatically randomly generated using uuidv4() when
+  //it is added to Firebase
   const addUser = async (user) => {
     //Updates Firebase data
     await addDoc(collection(database, "UsersCollection"), {
