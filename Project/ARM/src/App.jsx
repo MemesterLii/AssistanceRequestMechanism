@@ -1,14 +1,15 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import { database } from './firebase';
-import {doc, onSnapshot} from 'firebase/firestore';
+import {doc, onSnapshot, deleteDoc} from 'firebase/firestore';
 import LandingPage from './components/LandingPage';
 import HostPage from './components/HostPage';
 import GuestPage from './components/GuestPage';
 
-function App() {
-  const [roomID, setRoomID] = useState('');
-  const [isHost, setIsHost] = useState();
+ function App() {
+   const [roomID, setRoomID] = useState('');
+   const [isHost, setIsHost] = useState();
+   const [allTimeVisits, setAllTimeVisits] = useState(0);
 
   //Keeps user in their room across website reloads.
   //NOTE: useEffect() is like Unity's Update function. It runs every time the virtual DOM renders.
@@ -19,9 +20,10 @@ function App() {
       const docRef = doc(database, 'Rooms', localRoomID);
       //NOTE: onSnapshot() runs everytime the Firebase database senses a change.
       onSnapshot(docRef, (querySnapshot) => {
-        if (querySnapshot != undefined){
+        //NOTE: use querySnapshot.data() not just querySnapshot to boot out guest upon host deleting room.
+        if (querySnapshot.data() != undefined){
           setRoomID(localRoomID);
-          if (localID == querySnapshot.data().HostID){
+          if (localID.trim() == querySnapshot.data().HostID.trim()){
             setIsHost(true)
           }
           else{
@@ -31,10 +33,23 @@ function App() {
         else{
           setRoomID(undefined);
           setIsHost(undefined);
+          localStorage.clear();
         }
       })
     }
+    else{
+      setRoomID(undefined);
+      setIsHost(undefined);
+      localStorage.clear();
+    }
   }, [roomID, isHost]);
+
+  const statRef = doc(database, 'Statistics', 'AllTimeVisits');
+  onSnapshot(statRef, (querySnapshot) => {
+    if (querySnapshot.data() != undefined){
+      setAllTimeVisits(querySnapshot.data().Count);
+    }
+  })
 
   const getReturnComponent = () => {
     let returnComponent;
@@ -47,17 +62,19 @@ function App() {
       }
     }
     else{
-      returnComponent = <LandingPage setRoomID={setRoomID} setIsHost={setIsHost}/>;
+        returnComponent = <LandingPage setRoomID={setRoomID}
+        setIsHost={setIsHost} allTimeVisits={allTimeVisits}
+        setAllTimeVisits={setAllTimeVisits}/>;
     }
     return returnComponent;
   }
   
-  return (
-    <div className="App">
-      {getReturnComponent()}
-      <h4 id="website-info">All Time Visit Counter: PLACEHOLDER</h4>
-    </div>
-  )
-}
+   return (
+     <div className="App">
+       {getReturnComponent()}
+       <h4 id="website-info">All Time Visit Counter: {allTimeVisits}</h4>
+     </div>
+   )
+ }
 
 export default App

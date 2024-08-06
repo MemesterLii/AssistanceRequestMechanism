@@ -5,21 +5,11 @@ import {v4 as uuidv4} from 'uuid';
 uuidv4();
 
 
-const RoomForm = ({setRoomID, setAllTimeVisits}) => {
+const RoomForm = ({rooms, setRoomID, allTimeVisits}) => {
   const [newRoomID, setNewRoomID] = useState([]);
-  const [rooms, setRooms] = useState([]);
   const [isInvalidRoom, setisInvalidRoom] = useState();
 
   //Updates rooms array with data from Firebase
-  const docRef = query(collection(database, 'Rooms'))
-  onSnapshot(docRef, (querySnapshot) => {
-    let tempArray = []
-    querySnapshot.forEach((item) => {
-      tempArray.push(item.id)
-    })
-    setRooms(tempArray)
-  })
-
   const roomExists = (id) => {
     let exists = false;
     rooms.forEach(roomID => {
@@ -42,7 +32,7 @@ const RoomForm = ({setRoomID, setAllTimeVisits}) => {
     if (roomExists(newRoomID)){
       const newUserID = uuidv4();
       await setDoc(doc(database, "Statistics", "AllTimeVisits"), {
-        count: allTimeVisits + 1
+        Count: allTimeVisits + 1
       })  
       updateLocalStorage(newUserID, newRoomID);
       setRoomID(newRoomID);

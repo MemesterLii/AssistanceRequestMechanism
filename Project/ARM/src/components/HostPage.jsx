@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { database } from '../firebase';
-import {onSnapshot, setDoc, deleteDoc, doc} from 'firebase/firestore';
+import {query, onSnapshot, setDoc, deleteDoc, doc} from 'firebase/firestore';
 import UserHostView from './UserHostView';
 import {v4 as uuidv4} from 'uuid';
 uuidv4();
@@ -9,12 +9,24 @@ const HostPage = ({roomID}) => {
   //Declare and initialize an empty users array along with its setter function
   const [users, setUsers] = useState([]);
   const [hostID, setHostID] = useState('');
+  const docRef = doc(database, 'Rooms', roomID);
+
+  //Read users in room data from Firebase.
+  //NOTE: useEffect is necessary to prevent setUsers in onSnapshot from continuously running and causing a memory leak.
+  useEffect(() => {
+    const data = query(docRef);
+    const updateUsers = onSnapshot(data, (querySnapshot) => {
+      if (querySnapshot != undefined){
+        setUsers(querySnapshot.data().Users);
+      }
+    })
+    return () => updateUsers()
+  }, [])
 
   //Read user data from Firebase
-  onSnapshot(doc(database, 'Rooms', roomID), (querySnapshot) => {
+  onSnapshot(docRef, (querySnapshot) => {    
     if (querySnapshot.data() != undefined){
       setHostID(querySnapshot.data().HostID);
-      setUsers(querySnapshot.data().Users);  
     }
   })
   

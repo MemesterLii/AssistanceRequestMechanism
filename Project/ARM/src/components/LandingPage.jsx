@@ -5,27 +5,19 @@ import RoomForm from './RoomForm';
 import {v4 as uuidv4} from 'uuid';
 uuidv4();
 
-const LandingPage = ({setRoomID, setIsHost}) => {
+const LandingPage = ({setRoomID, setIsHost, allTimeVisits, setAllTimeVisits}) => {
   const [inputtingRoomCode, setInputtingRoomCode] = useState();
-  const [rooms, setRooms] = useState([]);
-  const [allTimeVisits, setAllTimeVisits] = useState(0);
+  const statRef = doc(database, 'Statistics', 'AllTimeVisits');
+  let rooms = [];
 
   //Updates rooms array with data from Firebase upon a change in the database
-  const docRef = query(collection(database, 'Rooms'));
+  const docRef = collection(database, 'Rooms');
   onSnapshot(docRef, (querySnapshot) => {
     if (querySnapshot != undefined){
-      let tempArray = [];
+      rooms.length = 0;
       querySnapshot.forEach((item) => {
-        tempArray.push(item.id);
+        rooms.push(item.id);
       })
-      setRooms(tempArray);
-    }
-  })
-
-  const statRef = query(collection(database, 'Statistics'));
-  onSnapshot(statRef, (querySnapshot) => {
-    if (querySnapshot != undefined){
-      setAllTimeVisits(querySnapshot.AllTimeVisits);
     }
   })
 
@@ -61,10 +53,6 @@ const LandingPage = ({setRoomID, setIsHost}) => {
       Users: []
     })
 
-    await setDoc(doc(database, "Statistics", "AllTimeVisits"), {
-      count: allTimeVisits + 1
-    })
-
     return newRoomID;
   }
 
@@ -73,7 +61,6 @@ const LandingPage = ({setRoomID, setIsHost}) => {
     const localRoomID = localStorage.getItem(`LocalRoomID`);
 
     onSnapshot(doc(database, 'Rooms', localRoomID), (querySnapshot) => {
-      console.log(querySnapshot.data().HostID);
       if (localID == querySnapshot.data().HostID){
         return true;
       }
@@ -84,15 +71,11 @@ const LandingPage = ({setRoomID, setIsHost}) => {
   const hostSubmit = async (e) => {
     e.preventDefault();
     const roomID = addRoom();
-    await setDoc(doc(database, "Statistics", "AllTimeVisits"), {
-      count: allTimeVisits + 1
+    await setDoc(statRef, {
+      Count: allTimeVisits + 1
     })
     setRoomID(roomID);
     setIsHost(isHostOfRoom());
-    //console.log(globalRoomID);
-    //console.log(isHost);
-    //reload to skip past rendering error, idk why
-    //location.reload();
   }
   
   const joinSubmit = async (e) => {
@@ -110,11 +93,11 @@ const LandingPage = ({setRoomID, setIsHost}) => {
         <button type="submit" className="host-join-btn">Host a Room</button>
       </form>
 
-      {inputtingRoomCode ? <RoomForm setRoomID={setRoomID}/> :
+      {inputtingRoomCode ? <RoomForm rooms={rooms} setRoomID={setRoomID}
+      allTimeVisits={allTimeVisits}/> :
       <form onSubmit={joinSubmit}>
         <button type="submit" className="host-join-btn">Join a Room</button>
       </form>}
-
     </div>
   )
 }

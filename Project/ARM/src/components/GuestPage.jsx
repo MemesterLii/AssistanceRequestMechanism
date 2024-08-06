@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { database } from '../firebase';
-import {onSnapshot, setDoc, doc} from 'firebase/firestore';
+import {query, onSnapshot, setDoc, doc} from 'firebase/firestore';
 import GuestForm from './GuestForm';
 import EditUserForm from './EditUserForm';
 import SelfGuestView from './SelfGuestView';
@@ -15,11 +15,22 @@ const GuestPage = ({roomID}) => {
   const [users, setUsers] = useState([]);
   const [inQueue, setInQueue] = useState();
 
-  //Read room data from Firebase.
+  //Read users in room data from Firebase.
+  //NOTE: useEffect is necessary to prevent setUsers in onSnapshot from continuously running and causing a memory leak.
+  useEffect(() => {
+    const data = query(docRef);
+    const updateUsers = onSnapshot(data, (querySnapshot) => {
+      if (querySnapshot != undefined){
+        setUsers(querySnapshot.data().Users);
+      }
+    })
+    return () => updateUsers()
+  }, [])
+
+  //Read room data from firebase
   onSnapshot(docRef, (querySnapshot) => {
     if (querySnapshot != undefined){
       setHostID(querySnapshot.data().HostID);
-      setUsers(querySnapshot.data().Users);
       if (users.findIndex(user => user.ID == localID) == -1){
         setInQueue(false);
       }
@@ -69,10 +80,11 @@ const GuestPage = ({roomID}) => {
 
   //Given a new name and an id, replace the name of the matching id user object in the users array with the new name
   //Then, set all other user objects the same
-  const editUser = async (name) => {
-    const updatedUser = {DisplayName: name, ID: localID, isEditing: !user.isEditing};
+  const editUser = async (name, user) => {
+    const updatedUser = {DisplayName: name, ID: localID, isEditing: false};
     let tempArray = users.map(user => user.ID == localID ? updatedUser : user);
     setUsers(tempArray);
+
     //Updates Firebase data.
     await setDoc(docRef, {
       HostID: hostID,
@@ -114,7 +126,7 @@ const GuestPage = ({roomID}) => {
         (user, index) => 
         ((user.ID == localID) ?
         ((user.isEditing) ?
-        (<EditUserForm oldUser={user} editUser={editUser} key={index}/>) :
+        (<EditUserForm user={user} editUser={editUser} key={index}/>) :
         (<SelfGuestView user={user} position={users.indexOf(user) + 1} deleteSelf={deleteSelf} toggleEditing={toggleEditing} key={index}/>)) : 
         (<UserGuestView user={user} position={users.indexOf(user) + 1} key={index}/>))
       )}
