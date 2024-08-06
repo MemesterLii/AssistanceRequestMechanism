@@ -18,6 +18,14 @@ body {
   text-align: center;
 }
 
+#invalid-alert {
+  color: #d50b3d;
+}
+
+#website-info {
+  margin-bottom: 2cqi;
+}
+
 #roomID {
   color: #fff;
   margin: 2rem;
@@ -77,6 +85,18 @@ h4 {
   margin-top: 3rem;
 }
 
+.room-form-input {
+  outline: none;
+  background: none;
+  border: 1px solid #8758ff;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  color: #fff;
+}
+
 .user-input {
   outline: none;
   background: none;
@@ -93,10 +113,24 @@ h4 {
   color: #8758ff;
 }
 
+.room-form-btn {
+  background: #8758ff;
+  color: #fff;
+  border: none;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 0.55rem;
+  cursor: pointer;
+}
+
 .submit-btn {
   background: #8758ff;
   color: #fff;
   border: none;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   border-radius: 0px 5px 5px 0px;
   padding: 0.55rem;
   cursor: pointer;
@@ -123,6 +157,26 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
+.delete-room-btn {
+  background: #d50b3d;
+  color: #fff;
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.leave-room-btn {
+  background: #d50b3d;
+  color: #fff;
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
 .User {
   display: flex;
   justify-content: space-between;
@@ -146,6 +200,17 @@ input::-webkit-inner-spin-button {
 }
 
 .UserGuestView {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #8758ff;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.SelfGuestView {
   display: flex;
   justify-content: space-between;
   align-items: center;

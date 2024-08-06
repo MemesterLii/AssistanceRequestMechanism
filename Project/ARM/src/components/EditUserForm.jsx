@@ -1,23 +1,22 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 
-const EditUserForm = ({editUser, oldUser}) => {
-  const [newUser, setNewUser] = useState(oldUser.name)
+const EditUserForm = ({user, editUser}) => {
+  console.log(user);
+  const [newUserName, setNewUserName] = useState(user.DisplayName);
 
   //Prevent the default function. If newUser is not an empty value ("", " ", "  ", etc.), call the
   //editUser function with newUser and the id of the user name to replace.
   const handleSubmit = e => {
     e.preventDefault();
-
-    if (newUser != false){
-      editUser(newUser, oldUser.id)
-
-      setNewUser("")
+    if (newUserName != false){
+      editUser(newUserName, user.ID);
+      setNewUserName('');
     }
   }
   
   return (
     <form className="UserForm" onSubmit={handleSubmit}>
-      <input type="text" className="user-input" value={newUser} placeholder="Update Name" onChange={(e) => setNewUser(e.target.value)}/>
+      <input type="text" className="user-input" value={newUserName} placeholder="Update Name" onChange={(e) => setNewUserName(e.target.value)}/>
       <button type="submit" className="user-btn">Update</button>
     </form>
   )

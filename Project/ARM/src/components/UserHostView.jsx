@@ -1,11 +1,22 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const UserHostView = ({user, position, deleteUser}) => {
+  const getReturnComponent = () => {
+    let returnComponent;
+    if (user.isEditing){
+      returnComponent = <p onClick={() => deleteUser(user.ID)}>{position}. {user.DisplayName} is editing their name...</p>;
+    }
+    else{
+      returnComponent = <p onClick={() => deleteUser(user.ID)}>{position}. {user.DisplayName}</p>;
+    }
+    return returnComponent;
+  }
+
   return (
     <div className='UserHostView'>
-      <p onClick={() => deleteUser(user.ID)}>{position}. {user.DisplayName}</p>
+      {getReturnComponent()}
       <div>
         <FontAwesomeIcon icon={faTrash} onClick={() => deleteUser(user.ID)}/>
       </div>

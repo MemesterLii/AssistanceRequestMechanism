@@ -1,39 +1,61 @@
-import './App.css'
-import UserWrapper from './components/UserWrapper'
-import LandingPage from './components/LandingPage'
-import HostPage from './components/HostPage'
-import GuestPage from './components/GuestPage'
-import React, {useState, useEffect} from 'react'
+import './App.css';
+import React, {useState, useEffect} from 'react';
 import { database } from './firebase';
-import {query, collection, onSnapshot, addDoc, getDoc, setDoc, updateDoc, deleteDoc, doc, orderBy} from 'firebase/firestore'
+import {doc, onSnapshot} from 'firebase/firestore';
+import LandingPage from './components/LandingPage';
+import HostPage from './components/HostPage';
+import GuestPage from './components/GuestPage';
 
 function App() {
-  const [roomID, setRoomID] = useState()
-  const [isHost, setIsHost] = useState()
+  const [roomID, setRoomID] = useState('');
+  const [isHost, setIsHost] = useState();
 
+  //Keeps user in their room across website reloads.
   //NOTE: useEffect() is like Unity's Update function. It runs every time the virtual DOM renders.
   useEffect(() => {
-    const fetchData = async () => {
-      const localID = localStorage.getItem(`LocalID`);
-      const localRoomID = localStorage.getItem(`LocalRoomID`);
-      const room = await getDoc(doc(database, "Rooms", localRoomID));
+    const localID = localStorage.getItem(`LocalID`);
+    const localRoomID = localStorage.getItem(`LocalRoomID`);
+    if(localRoomID != null && localID != null){
+      const docRef = doc(database, 'Rooms', localRoomID);
+      //NOTE: onSnapshot() runs everytime the Firebase database senses a change.
+      onSnapshot(docRef, (querySnapshot) => {
+        if (querySnapshot != undefined){
+          setRoomID(localRoomID);
+          if (localID == querySnapshot.data().HostID){
+            setIsHost(true)
+          }
+          else{
+            setIsHost(false);
+          }
+        }
+        else{
+          setRoomID(undefined);
+          setIsHost(undefined);
+        }
+      })
+    }
+  }, [roomID, isHost]);
 
-      //Keeps the user in their room even after reloading.
-      if (room.exists && localID != null) {
-        setRoomID(localRoomID);
-        console.log(roomID);
-        (localID == room.HostID) ? setIsHost(true) : setIsHost(false)
+  const getReturnComponent = () => {
+    let returnComponent;
+    if (roomID){
+      if(isHost){
+        returnComponent = <HostPage roomID={roomID}/>;
+      }
+      else{
+        returnComponent = <GuestPage roomID={roomID}/>;
       }
     }
-    fetchData();
-  }, [])
-
+    else{
+      returnComponent = <LandingPage setRoomID={setRoomID} setIsHost={setIsHost}/>;
+    }
+    return returnComponent;
+  }
+  
   return (
     <div className="App">
-      {(!roomID) ? <LandingPage setRoomID={setRoomID} setIsHost={setIsHost}/> :
-      (isHost) ? <HostPage roomID={roomID}/> : <GuestPage roomID={roomID}/>}
-
-      <h4>All Time Visit Counter: [PLACEHOLDER]</h4>
+      {getReturnComponent()}
+      <h4 id="website-info">All Time Visit Counter: PLACEHOLDER</h4>
     </div>
   )
 }
