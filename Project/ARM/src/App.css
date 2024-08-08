@@ -5,10 +5,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  --bgColor: #000;
+  --color1: #8758ff;
+  --color2: #1A1A40;
+  --txtColor: #fff;
+  --warnColor: #8f0024;
 }
 
 body {
-  background: #8758ff;
+  background: var(--bgColor);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,106 +21,73 @@ body {
 
 .App {
   text-align: center;
+  background: var(--color2);
+  margin: 5rem;
+  padding: 3rem;
+  border-radius: 5px;
 }
 
 #invalid-alert {
-  color: #d50b3d;
+  color: var(--warnColor);
 }
 
 #website-info {
-  margin-bottom: 2cqi;
-}
-
-#roomID {
-  color: #fff;
-  margin: 2rem;
-  font-size: 3rem;
+  color: var(--txtColor);
+  margin-top: 3rem;
 }
 
 h1 {
-  color: #fff;
-  margin-bottom: 0.5rem;
+  color: var(--txtColor);
   font-size: 1.75rem;
 }
 
 h4 {
-  color: #fff;
-  margin-bottom: 0.5rem;
-  font-size: 1 rem;
+  color: var(--txtColor);
+  font-size: 1rem;
 }
 
-.UserWrapper {
-  background: #1A1A40;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  padding: 3rem;
-  border-radius: 5px;
-}
-
-.LandingPage {
-  background: #1A1A40;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  padding: 3rem;
-  border-radius: 5px;
-}
-
-.HostPage {
-  background: #1A1A40;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  padding: 3rem;
-  border-radius: 5px;
-}
-
+.LandingPage,
+.HostPage,
 .GuestPage {
-  background: #1A1A40;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  padding: 3rem;
-  border-radius: 5px;
-}
-
-.UserForm {
-  width: 100%;
+  background: var(--color2);
 }
 
 .RoomForm {
   width: 100%;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .room-form-input {
   outline: none;
   background: none;
-  border: 1px solid #8758ff;
+  border: 1px solid var(--color1);
   border-radius: 5px;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
   width: 100%;
-  color: #fff;
+  color: var(--txtColor);
 }
 
 .user-input {
   outline: none;
   background: none;
-  border: 1px solid #8758ff;
+  border: 1px solid var(--color1);
   border-radius: 5px 0px 0px 5px;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 300px;
-  color: #fff;
+  color: var(--txtColor);
 }
 
 .user-input::placeholder {
-  color: #8758ff;
+  color: var(--color1);
 }
 
 .room-form-btn {
-  background: #8758ff;
-  color: #fff;
+  background: var(--color1);
+  color: var(--txtColor);
   border: none;
   width: 100%;
   margin-top: 1rem;
@@ -126,8 +98,8 @@ h4 {
 }
 
 .submit-btn {
-  background: #8758ff;
-  color: #fff;
+  background: var(--color1);
+  color: var(--txtColor);
   border: none;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -144,8 +116,8 @@ input::-webkit-inner-spin-button {
 }
 
 .host-join-btn {
-  background: #8758ff;
-  color: #fff;
+  background: var(--color1);
+  color: var(--txtColor);
   border: none;
   width: 100%;
   table-layout: fixed;
@@ -158,8 +130,8 @@ input::-webkit-inner-spin-button {
 }
 
 .delete-room-btn {
-  background: #d50b3d;
-  color: #fff;
+  background: var(--warnColor);
+  color: var(--txtColor);
   border: none;
   width: 100%;
   border-radius: 5px;
@@ -168,8 +140,8 @@ input::-webkit-inner-spin-button {
 }
 
 .leave-room-btn {
-  background: #d50b3d;
-  color: #fff;
+  background: var(--warnColor);
+  color: var(--txtColor);
   border: none;
   width: 100%;
   border-radius: 5px;
@@ -181,8 +153,8 @@ input::-webkit-inner-spin-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #8758ff;
-  color: #fff;
+  background: var(--color1);
+  color: var(--txtColor);
   padding: 0.75rem 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
@@ -192,8 +164,8 @@ input::-webkit-inner-spin-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #8758ff;
-  color: #fff;
+  background: var(--color1);
+  color: var(--txtColor);
   padding: 0.75rem 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
@@ -203,8 +175,8 @@ input::-webkit-inner-spin-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #8758ff;
-  color: #fff;
+  background: var(--color1);
+  color: var(--txtColor);
   padding: 0.75rem 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
@@ -214,8 +186,8 @@ input::-webkit-inner-spin-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #8758ff;
-  color: #fff;
+  background: var(--color1);
+  color: var(--txtColor);
   padding: 0.75rem 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
@@ -223,17 +195,6 @@ input::-webkit-inner-spin-button {
 
 .fa-trash {
   margin-left: 0.75rem;
-}
-
-.incompleted {
-  color: #fff;
-  cursor: pointer;
-}
-
-.completed {
-  color: #c5aeff;
-  text-decoration: line-through;
-  cursor: pointer;
 }
 
 .edit-icon,

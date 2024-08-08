@@ -62,10 +62,6 @@ const HostPage = ({roomID}) => {
 
   return (
     <div className='HostPage'>
-      <h1>A.R.M.</h1>
-      <h4>Assistance Request Mechanism</h4>
-      <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
-      
       <h1 id="roomID">Room: {roomID}
         <form onSubmit={deleteRoom}>
           <button type="submit" className="delete-room-btn">Delete Room</button>

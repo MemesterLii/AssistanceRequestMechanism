@@ -76,6 +76,9 @@ const LandingPage = ({setRoomID, setIsHost, allTimeVisits, setAllTimeVisits}) =>
     })
     setRoomID(roomID);
     setIsHost(isHostOfRoom());
+
+    //Force reload to load the host page (FIX LATER)
+    location.reload();
   }
   
   const joinSubmit = async (e) => {
@@ -85,10 +88,6 @@ const LandingPage = ({setRoomID, setIsHost, allTimeVisits, setAllTimeVisits}) =>
 
   return (
     <div className='LandingPage'>
-      <h1>A.R.M.</h1>
-      <h4>Assistance Request Mechanism</h4>
-      <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
-
       <form onSubmit={hostSubmit}>
         <button type="submit" className="host-join-btn">Host a Room</button>
       </form>

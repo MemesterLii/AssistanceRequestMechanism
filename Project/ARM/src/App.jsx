@@ -71,8 +71,12 @@ import GuestPage from './components/GuestPage';
   
    return (
      <div className="App">
-       {getReturnComponent()}
-       <h4 id="website-info">All Time Visit Counter: {allTimeVisits}</h4>
+      <h1>A.R.M.</h1>
+      <h4>Assistance Request Mechanism</h4>
+      <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
+
+      {getReturnComponent()}
+      <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br /> 2024 Site developed by Andre Lee using React.js and Firebase.</h4>
      </div>
    )
  }

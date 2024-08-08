@@ -6,7 +6,7 @@ const UserHostView = ({user, position, deleteUser}) => {
   const getReturnComponent = () => {
     let returnComponent;
     if (user.isEditing){
-      returnComponent = <p onClick={() => deleteUser(user.ID)}>{position}. {user.DisplayName} is editing their name...</p>;
+      returnComponent = <p onClick={() => deleteUser(user.ID)}>{position}. {user.DisplayName} [Editing]</p>;
     }
     else{
       returnComponent = <p onClick={() => deleteUser(user.ID)}>{position}. {user.DisplayName}</p>;

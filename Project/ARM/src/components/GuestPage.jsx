@@ -14,6 +14,7 @@ const GuestPage = ({roomID}) => {
   const [hostID, setHostID] = useState('');
   const [users, setUsers] = useState([]);
   const [inQueue, setInQueue] = useState();
+  const [updated, setUpdated] = useState(false);
 
   //Read users in room data from Firebase.
   //NOTE: useEffect is necessary to prevent setUsers in onSnapshot from continuously running and causing a memory leak.
@@ -74,23 +75,44 @@ const GuestPage = ({roomID}) => {
   }
   
   //Toggle the isEditing property of the user
-  const toggleEditing = () => {
-    setUsers(users.map(user => user.ID == localID ? {... user, isEditing: !user.isEditing} : user));
+  const toggleEditing = async () => {
+    setUsers(prevUsers => {
+      const updatedUsers = prevUsers.map((user) =>
+        (user.ID === localID) ? { ...user, isEditing: !user.isEditing } : user
+      );
+
+      return updatedUsers;
+    });
+
+    setUpdated(true);
   }
 
   //Given a new name and an id, replace the name of the matching id user object in the users array with the new name
   //Then, set all other user objects the same
-  const editUser = async (name, user) => {
-    const updatedUser = {DisplayName: name, ID: localID, isEditing: false};
-    let tempArray = users.map(user => user.ID == localID ? updatedUser : user);
-    setUsers(tempArray);
+  const editUser = async (name) => {
+    setUsers(prevUsers => {
+      const updatedUsers = prevUsers.map((user) =>
+        (user.ID === localID) ? { ...user, DisplayName: name, isEditing: !user.isEditing } : user
+      );
+      return updatedUsers;
+    });
 
-    //Updates Firebase data.
-    await setDoc(docRef, {
-      HostID: hostID,
-      Users: users
-    })
+    setUpdated(true);
   }
+
+  //Update Firebase when useState variables updated and users change
+  useEffect(() => {
+    if (updated) {
+      //setDoc with updated users array
+      setDoc(docRef, {
+        HostID: hostID,
+        Users: users
+      }).then(() => {
+        // Reset the updated state
+        setUpdated(false);
+      });
+    }
+  }, [updated, users]);
 
   const leaveRoom = async (e) => {
     e.preventDefault();
@@ -101,10 +123,6 @@ const GuestPage = ({roomID}) => {
 
   return (
     <div className='GuestPage'>
-      <h1>A.R.M.</h1>
-      <h4>Assistance Request Mechanism</h4>
-      <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
-      
       <h1 id="roomID">Room: {roomID}
         <form onSubmit={leaveRoom}>
           <button type="submit" className="leave-room-btn">Leave Room</button>

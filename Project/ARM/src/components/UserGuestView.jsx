@@ -4,7 +4,7 @@ const UserGuestView = ({user, position}) => {
   const getReturnComponent = () => {
     let returnComponent;
     if (user.isEditing){
-      returnComponent = <p>{position}. {user.DisplayName} is editing their name...</p>;
+      returnComponent = <p>{position}. {user.DisplayName} [Editing]</p>;
     }
     else{
       returnComponent = <p>{position}. {user.DisplayName}</p>;
