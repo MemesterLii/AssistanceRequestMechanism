@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import { database } from './firebase';
-import {doc, onSnapshot, deleteDoc} from 'firebase/firestore';
+import {doc, onSnapshot} from 'firebase/firestore';
 import LandingPage from './components/LandingPage';
 import HostPage from './components/HostPage';
 import GuestPage from './components/GuestPage';
@@ -73,7 +73,7 @@ import GuestPage from './components/GuestPage';
      <div className="App">
       <h1>A.R.M.</h1>
       <h4>Assistance Request Mechanism</h4>
-      <img src="/src/assets/altFavicon2.ico" alt="A.R.M. Logo"></img>
+      <img src="/src/assets/altFavicon2(GitHub).ico" alt="A.R.M. Logo"></img>
 
       {getReturnComponent()}
       <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br /> 2024 Site developed by Andre Lee using React.js and Firebase.</h4>

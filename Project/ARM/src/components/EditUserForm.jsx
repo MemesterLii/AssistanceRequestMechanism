@@ -15,7 +15,7 @@ const EditUserForm = ({user, editUser}) => {
   
   return (
     <form className="UserForm" onSubmit={handleSubmit}>
-      <input type="text" className="user-input" value={newUserName} placeholder="Update Name"
+      <input type="text" className="guest-input" value={newUserName} placeholder="Update Name"
       onChange={(e) => (e.target.value.length > maxNameLength) ?
       e.target.value = e.target.value.slice(0, maxNameLength) :
       setNewUserName(e.target.value.toString())}/>

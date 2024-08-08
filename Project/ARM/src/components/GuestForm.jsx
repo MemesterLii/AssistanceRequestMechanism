@@ -16,7 +16,7 @@ const GuestForm = ({addUser}) => {
 
   return (
     <form className="GuestForm" onSubmit={handleSubmit}>
-      <input type="text" className="user-input" value={newUserName} placeholder="Enter Name"
+      <input type="text" className="guest-input" value={newUserName} placeholder="Enter Name"
       onChange={(e) => (e.target.value.length > maxNameLength) ?
         e.target.value = e.target.value.slice(0, maxNameLength) :
         setNewUserName(e.target.value.toString())}/>

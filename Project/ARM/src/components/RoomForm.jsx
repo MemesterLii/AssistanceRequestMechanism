@@ -45,14 +45,14 @@ const RoomForm = ({rooms, setRoomID, allTimeVisits}) => {
   return (
     <form className="RoomForm" onSubmit={handleSubmit}>
 
-      <input type="number" className="room-form-input" value={newRoomID}
+      <input type="number" className="room-input" value={newRoomID}
       placeholder="Enter Room ID" onChange={(e) => (e.target.value.length > 4) ?
       e.target.value = e.target.value.slice(0, 4) :
       setNewRoomID(e.target.value.toString())}/>
-      {(isInvalidRoom) ? <h4 id="invalid-alert">Please enter a valid Room ID</h4> : null}
 
       <button type="submit" className="room-form-btn">Join</button>
 
+      {(isInvalidRoom) ? <h4 id="invalid-alert">Please enter a valid Room ID</h4> : null}
     </form>
   )
 }

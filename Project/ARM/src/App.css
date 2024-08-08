@@ -3,11 +3,14 @@
 * {
   font-family: 'Poppins', sans-serif;
   margin: 0;
-  padding: 0;
+  /* padding: 0; */
   box-sizing: border-box;
-  --bgColor: #000;
-  --color1: #8758ff;
-  --color2: #1A1A40;
+  /* --bgColor: #0a0a17; */
+  --bgColor: #252a2e;
+  /* --color1: #8758ff; */
+  --color1: #0566d9;
+  /* --color2: #1A1A40; */
+  --color2: #1d2226;
   --txtColor: #fff;
   --warnColor: #8f0024;
 }
@@ -19,23 +22,6 @@ body {
   align-items: center;
 }
 
-.App {
-  text-align: center;
-  background: var(--color2);
-  margin: 5rem;
-  padding: 3rem;
-  border-radius: 5px;
-}
-
-#invalid-alert {
-  color: var(--warnColor);
-}
-
-#website-info {
-  color: var(--txtColor);
-  margin-top: 3rem;
-}
-
 h1 {
   color: var(--txtColor);
   font-size: 1.75rem;
@@ -44,75 +30,21 @@ h1 {
 h4 {
   color: var(--txtColor);
   font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.App {
+  text-align: center;
+  background: var(--color2);
+  margin: 5rem;
+  padding: 3rem;
+  border-radius: 5px;
 }
 
 .LandingPage,
 .HostPage,
 .GuestPage {
   background: var(--color2);
-}
-
-.RoomForm {
-  width: 100%;
-  margin-top: 2rem;
-}
-
-.room-form-input {
-  outline: none;
-  background: none;
-  border: 1px solid var(--color1);
-  border-radius: 5px;
-  padding: 0.5rem 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  width: 100%;
-  color: var(--txtColor);
-}
-
-.user-input {
-  outline: none;
-  background: none;
-  border: 1px solid var(--color1);
-  border-radius: 5px 0px 0px 5px;
-  padding: 0.5rem 1rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  width: 300px;
-  color: var(--txtColor);
-}
-
-.user-input::placeholder {
-  color: var(--color1);
-}
-
-.room-form-btn {
-  background: var(--color1);
-  color: var(--txtColor);
-  border: none;
-  width: 100%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 5px;
-  padding: 0.55rem;
-  cursor: pointer;
-}
-
-.submit-btn {
-  background: var(--color1);
-  color: var(--txtColor);
-  border: none;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 0px 5px 5px 0px;
-  padding: 0.55rem;
-  cursor: pointer;
-}
-
-/*Removes stinky arrows in room form input field*/
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
 
 .host-join-btn {
@@ -129,35 +61,52 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
-.delete-room-btn {
-  background: var(--warnColor);
-  color: var(--txtColor);
-  border: none;
+.RoomForm {
   width: 100%;
-  border-radius: 5px;
-  font-size: 15px;
-  cursor: pointer;
+  margin-top: 3rem;
 }
 
-.leave-room-btn {
-  background: var(--warnColor);
+.room-input,
+.guest-input {
+  outline: none;
+  background: none;
+  border: 1px solid var(--color1);
+  border-radius: 5px 0px 0px 5px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  width: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: var(--txtColor);
-  border: none;
-  width: 100%;
-  border-radius: 5px;
-  font-size: 15px;
-  cursor: pointer;
 }
 
-.User {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/*Removes stinky arrows in room form input field*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.room-form-btn,
+.submit-btn {
   background: var(--color1);
   color: var(--txtColor);
-  padding: 0.75rem 1rem;
-  border-radius: 5px;
+  border: none;
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  width: 25%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 0px 5px 5px 0px;
+  padding: 0.55rem;
+  cursor: pointer;
+}
+
+#roomID {
+  font-size: 3rem;
 }
 
 .UserHostView {
@@ -173,8 +122,6 @@ input::-webkit-inner-spin-button {
 
 .UserGuestView {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: var(--color1);
   color: var(--txtColor);
   padding: 0.75rem 1rem;
@@ -193,12 +140,57 @@ input::-webkit-inner-spin-button {
   margin-bottom: 1rem;
 }
 
+.fa-pen-to-square,
 .fa-trash {
   margin-left: 0.75rem;
+  cursor: pointer
 }
 
-.edit-icon,
-.delete-icon {
+.displayName {
   cursor: pointer;
 }
- 
+
+.delete-room-btn,
+.leave-room-btn {
+  background: var(--warnColor);
+  color: var(--txtColor);
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#invalid-alert {
+  color: var(--warnColor);
+}
+
+#website-info {
+  color: var(--txtColor);
+  margin-top: 3rem;
+}
+
+/*Old room form styling
+.room-input {
+  outline: none;
+  background: none;
+  border: 1px solid var(--color1);
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  color: var(--txtColor);
+}
+
+.room-form-btn {
+  background: var(--color1);
+  color: var(--txtColor);
+  border: none;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 0.55rem;
+  cursor: pointer;
+}*/
