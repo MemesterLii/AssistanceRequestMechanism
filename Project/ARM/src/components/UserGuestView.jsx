@@ -13,7 +13,7 @@ const UserGuestView = ({user, position}) => {
   }
   
   return (
-    <div className='UserGuestView'>
+    <div id='UserGuestView'>
       {getReturnComponent()}
     </div>
   )

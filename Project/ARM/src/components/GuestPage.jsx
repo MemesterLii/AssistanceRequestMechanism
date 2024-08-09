@@ -8,13 +8,14 @@ import UserGuestView from './UserGuestView';
 import {v4 as uuidv4} from 'uuid';
 uuidv4();
 
-const GuestPage = ({roomID}) => {
+const GuestPage = ({roomID, setRoomID}) => {
   const docRef = doc(database, 'Rooms', roomID);
   const localID = localStorage.getItem('LocalID');
   const [hostID, setHostID] = useState('');
   const [users, setUsers] = useState([]);
   const [inQueue, setInQueue] = useState();
   const [updated, setUpdated] = useState(false);
+  const [deleteRequest, setDeleteRequest] = useState();
 
   //Read users in room data from Firebase.
   //NOTE: useEffect is necessary to prevent setUsers in onSnapshot from continuously running and causing a memory leak.
@@ -26,7 +27,25 @@ const GuestPage = ({roomID}) => {
       }
     })
     return () => updateUsers()
-  }, [])
+  }, []);
+
+  //Update Firebase when useState variables updated and users change
+  useEffect(() => {
+    if (updated) {
+      //setDoc with updated users array
+      setDoc(docRef, {
+        HostID: hostID,
+        Users: users
+      }).then(() => {
+        if (deleteRequest){
+          setRoomID('');
+        }
+        // Reset the updated state
+        setDeleteRequest(false);
+        setUpdated(false);
+      });
+    }
+  }, [updated, deleteRequest, users]);
 
   //Read room data from firebase
   onSnapshot(docRef, (querySnapshot) => {
@@ -39,7 +58,7 @@ const GuestPage = ({roomID}) => {
         setInQueue(true);
       }
     }
-  })
+  });
 
   //Given a name, set the users array to all previous user objects + a new object using user's properties.
   const addUser = async (name) => {
@@ -47,11 +66,7 @@ const GuestPage = ({roomID}) => {
     let tempArray = users;
     tempArray.push(newUser);
     setUsers(tempArray);
-    //Updates Firebase data.
-    await setDoc(docRef, {
-        HostID: hostID,
-        Users: users
-    })
+    setUpdated(true);
   }
 
   //Filter out any user with an id matching the user's local id (themselves).
@@ -67,10 +82,8 @@ const GuestPage = ({roomID}) => {
       let tempArray = users;
       tempArray.splice(userIndex, 1);
       setUsers(tempArray);
-      await setDoc(docRef, {
-        HostID: hostID,
-        Users: users
-      })
+      setDeleteRequest(true);
+      setUpdated(true);
     }
   }
   
@@ -100,32 +113,17 @@ const GuestPage = ({roomID}) => {
     setUpdated(true);
   }
 
-  //Update Firebase when useState variables updated and users change
-  useEffect(() => {
-    if (updated) {
-      //setDoc with updated users array
-      setDoc(docRef, {
-        HostID: hostID,
-        Users: users
-      }).then(() => {
-        // Reset the updated state
-        setUpdated(false);
-      });
-    }
-  }, [updated, users]);
-
   const leaveRoom = async (e) => {
     e.preventDefault();
-    deleteSelf();
     localStorage.clear();
-    location.reload();
+    await deleteSelf();
   }
 
   return (
-    <div className='GuestPage'>
-      <h1 id="roomID">Room: {roomID}
+    <div id='GuestPage'>
+      <h1 className="room-id">Room: {roomID}
         <form onSubmit={leaveRoom}>
-          <button type="submit" className="leave-room-btn">Leave Room</button>
+          <button type="submit" id="leave-room-btn">Leave Room</button>
         </form>
       </h1>
 

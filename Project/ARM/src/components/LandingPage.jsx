@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { database } from '../firebase';
-import {query, collection, onSnapshot, setDoc, doc} from 'firebase/firestore';
+import {getDoc, collection, onSnapshot, setDoc, doc} from 'firebase/firestore';
 import RoomForm from './RoomForm';
 import {v4 as uuidv4} from 'uuid';
 uuidv4();
 
-const LandingPage = ({setRoomID, setIsHost, allTimeVisits, setAllTimeVisits}) => {
+const LandingPage = ({setRoomID, setIsHost, allTimeVisits}) => {
   const [inputtingRoomCode, setInputtingRoomCode] = useState();
   const statRef = doc(database, 'Statistics', 'AllTimeVisits');
   let rooms = [];
+  let landingPageRoomID;
 
   //Updates rooms array with data from Firebase upon a change in the database
   const docRef = collection(database, 'Rooms');
@@ -19,12 +20,12 @@ const LandingPage = ({setRoomID, setIsHost, allTimeVisits, setAllTimeVisits}) =>
         rooms.push(item.id);
       })
     }
-  })
+  });
 
   const updateLocalStorage = (id, roomID) => {
     localStorage.setItem(`LocalID`, id);
     localStorage.setItem(`LocalRoomID`, roomID);
-  }
+  };
 
   const generateRoomID = () => {
     let newRoomID = Math.floor(Math.random() * 10000)
@@ -35,12 +36,12 @@ const LandingPage = ({setRoomID, setIsHost, allTimeVisits, setAllTimeVisits}) =>
     newRoomID.toString();
     
     return newRoomID;
-  }
+  };
 
   const addRoom = async () => {
-    let newRoomID = generateRoomID();
+    let newRoomID = await generateRoomID();
     while (rooms.includes(newRoomID)){
-      newRoomID = generateRoomID();
+      newRoomID = await generateRoomID();
     }
 
     //Save data locally
@@ -54,40 +55,37 @@ const LandingPage = ({setRoomID, setIsHost, allTimeVisits, setAllTimeVisits}) =>
     })
 
     return newRoomID;
-  }
+  };
 
-  const isHostOfRoom = () => {
+  const isHostOfRoom = async () => {
     const localID = localStorage.getItem(`LocalID`);
     const localRoomID = localStorage.getItem(`LocalRoomID`);
 
-    onSnapshot(doc(database, 'Rooms', localRoomID), (querySnapshot) => {
-      if (localID == querySnapshot.data().HostID){
-        return true;
-      }
-      return false;
-    })
-  }
+    let room = await getDoc(doc(database, 'Rooms', localRoomID));
+    if (localID == room.HostID){
+      return true;
+    }
+    return false;
+  };
 
   const hostSubmit = async (e) => {
     e.preventDefault();
-    const roomID = addRoom();
+    landingPageRoomID = await addRoom();
     await setDoc(statRef, {
       Count: allTimeVisits + 1
     })
-    setRoomID(roomID);
-    setIsHost(isHostOfRoom());
 
-    //Force reload to load the host page (FIX LATER)
-    location.reload();
-  }
+    setIsHost(isHostOfRoom());
+    setRoomID(landingPageRoomID);
+  };
   
   const joinSubmit = async (e) => {
     e.preventDefault();
     setInputtingRoomCode(true);
-  }
+  };
 
   return (
-    <div className='LandingPage'>
+    <div id='LandingPage'>
       <form onSubmit={hostSubmit}>
         <button type="submit" className="host-join-btn">Host a Room</button>
       </form>
@@ -99,6 +97,6 @@ const LandingPage = ({setRoomID, setIsHost, allTimeVisits, setAllTimeVisits}) =>
       </form>}
     </div>
   )
-}
+};
 
 export default LandingPage

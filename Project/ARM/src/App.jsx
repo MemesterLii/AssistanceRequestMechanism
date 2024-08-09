@@ -6,10 +6,10 @@ import LandingPage from './components/LandingPage';
 import HostPage from './components/HostPage';
 import GuestPage from './components/GuestPage';
 
- function App() {
-   const [roomID, setRoomID] = useState('');
-   const [isHost, setIsHost] = useState();
-   const [allTimeVisits, setAllTimeVisits] = useState(0);
+function App() {
+  const [roomID, setRoomID] = useState('');
+  const [isHost, setIsHost] = useState();
+  const [allTimeVisits, setAllTimeVisits] = useState(0);
 
   //Keeps user in their room across website reloads.
   //NOTE: useEffect() is like Unity's Update function. It runs every time the virtual DOM renders.
@@ -42,43 +42,41 @@ import GuestPage from './components/GuestPage';
       setIsHost(undefined);
       localStorage.clear();
     }
-  }, [roomID, isHost]);
+  }, []);
 
   const statRef = doc(database, 'Statistics', 'AllTimeVisits');
   onSnapshot(statRef, (querySnapshot) => {
     if (querySnapshot.data() != undefined){
       setAllTimeVisits(querySnapshot.data().Count);
     }
-  })
+  });
 
   const getReturnComponent = () => {
     let returnComponent;
     if (roomID){
       if(isHost){
-        returnComponent = <HostPage roomID={roomID}/>;
+        returnComponent = <HostPage roomID={roomID} setRoomID={setRoomID}/>;
       }
       else{
-        returnComponent = <GuestPage roomID={roomID}/>;
+        returnComponent = <GuestPage roomID={roomID} setRoomID={setRoomID}/>;
       }
     }
     else{
-        returnComponent = <LandingPage setRoomID={setRoomID}
-        setIsHost={setIsHost} allTimeVisits={allTimeVisits}
-        setAllTimeVisits={setAllTimeVisits}/>;
+        returnComponent = <LandingPage setRoomID={setRoomID} setIsHost={setIsHost} allTimeVisits={allTimeVisits}/>;
     }
     return returnComponent;
-  }
+  };
   
-   return (
-     <div className="App">
+  return (
+    <div id="App">
       <h1>A.R.M.</h1>
       <h4>Assistance Request Mechanism</h4>
       <img src="/src/assets/altFavicon2(GitHub).ico" alt="A.R.M. Logo"></img>
 
       {getReturnComponent()}
-      <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br /> 2024 Site developed by Andre Lee using React.js and Firebase.</h4>
-     </div>
-   )
- }
+      <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br/> 2024 Site developed by Andre Lee using React.js and Firebase.</h4>
+    </div>
+  )
+};
 
 export default App

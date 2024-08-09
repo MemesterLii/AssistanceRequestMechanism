@@ -3,7 +3,6 @@
 * {
   font-family: 'Poppins', sans-serif;
   margin: 0;
-  /* padding: 0; */
   box-sizing: border-box;
   /* --bgColor: #0a0a17; */
   --bgColor: #252a2e;
@@ -33,7 +32,7 @@ h4 {
   margin-bottom: 0.75rem;
 }
 
-.App {
+#App {
   text-align: center;
   background: var(--color2);
   margin: 5rem;
@@ -41,9 +40,9 @@ h4 {
   border-radius: 5px;
 }
 
-.LandingPage,
-.HostPage,
-.GuestPage {
+#LandingPage,
+#HostPage,
+#GuestPage {
   background: var(--color2);
 }
 
@@ -61,12 +60,12 @@ h4 {
   cursor: pointer;
 }
 
-.RoomForm {
+#RoomForm {
   width: 100%;
   margin-top: 3rem;
 }
 
-.room-input,
+#room-form-input,
 .guest-input {
   outline: none;
   background: none;
@@ -89,7 +88,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.room-form-btn,
+#room-form-btn,
 .submit-btn {
   background: var(--color1);
   color: var(--txtColor);
@@ -105,11 +104,11 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
-#roomID {
+.room-id {
   font-size: 3rem;
 }
 
-.UserHostView {
+#UserHostView {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -120,7 +119,7 @@ input::-webkit-inner-spin-button {
   margin-bottom: 1rem;
 }
 
-.UserGuestView {
+#UserGuestView {
   display: flex;
   background: var(--color1);
   color: var(--txtColor);
@@ -129,7 +128,7 @@ input::-webkit-inner-spin-button {
   margin-bottom: 1rem;
 }
 
-.SelfGuestView {
+#SelfGuestView {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -146,12 +145,12 @@ input::-webkit-inner-spin-button {
   cursor: pointer
 }
 
-.displayName {
+.display-name {
   cursor: pointer;
 }
 
-.delete-room-btn,
-.leave-room-btn {
+#delete-room-btn,
+#leave-room-btn {
   background: var(--warnColor);
   color: var(--txtColor);
   border: none;
@@ -170,8 +169,8 @@ input::-webkit-inner-spin-button {
   margin-top: 3rem;
 }
 
-/*Old room form styling
-.room-input {
+/*This is the old room form styling; I might change my mind and use this again.
+#room-form-input {
   outline: none;
   background: none;
   border: 1px solid var(--color1);
@@ -183,7 +182,7 @@ input::-webkit-inner-spin-button {
   color: var(--txtColor);
 }
 
-.room-form-btn {
+#room-form-btn {
   background: var(--color1);
   color: var(--txtColor);
   border: none;

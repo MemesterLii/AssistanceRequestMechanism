@@ -5,7 +5,7 @@ import UserHostView from './UserHostView';
 import {v4 as uuidv4} from 'uuid';
 uuidv4();
 
-const HostPage = ({roomID}) => {
+const HostPage = ({roomID, setRoomID}) => {
   //Declare and initialize an empty users array along with its setter function
   const [users, setUsers] = useState([]);
   const [hostID, setHostID] = useState('');
@@ -16,7 +16,7 @@ const HostPage = ({roomID}) => {
   useEffect(() => {
     const data = query(docRef);
     const updateUsers = onSnapshot(data, (querySnapshot) => {
-      if (querySnapshot != undefined){
+      if (querySnapshot.data() != undefined){
         setUsers(querySnapshot.data().Users);
       }
     })
@@ -57,14 +57,14 @@ const HostPage = ({roomID}) => {
     localStorage.clear();
     setUsers([]);
     setHostID('');
-    //location.reload();
+    setRoomID('');
   }
 
   return (
-    <div className='HostPage'>
-      <h1 id="roomID">Room: {roomID}
+    <div id='HostPage'>
+      <h1 className="room-id">Room: {roomID}
         <form onSubmit={deleteRoom}>
-          <button type="submit" className="delete-room-btn">Delete Room</button>
+          <button type="submit" id="delete-room-btn">Delete Room</button>
         </form>
       </h1>
 
