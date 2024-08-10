@@ -15,7 +15,7 @@ const GuestPage = ({roomID, setRoomID}) => {
   const [users, setUsers] = useState([]);
   const [inQueue, setInQueue] = useState();
   const [updated, setUpdated] = useState(false);
-  const [deleteRequest, setDeleteRequest] = useState();
+  const [leaveRequest, setLeaveRequest] = useState();
 
   //Read users in room data from Firebase.
   //NOTE: useEffect is necessary to prevent setUsers in onSnapshot from continuously running and causing a memory leak.
@@ -37,15 +37,15 @@ const GuestPage = ({roomID, setRoomID}) => {
         HostID: hostID,
         Users: users
       }).then(() => {
-        if (deleteRequest){
+        if (leaveRequest){
           setRoomID('');
         }
         // Reset the updated state
-        setDeleteRequest(false);
+        setLeaveRequest(false);
         setUpdated(false);
       });
     }
-  }, [updated, deleteRequest, users]);
+  }, [updated, leaveRequest, users]);
 
   //Read room data from firebase
   onSnapshot(docRef, (querySnapshot) => {
@@ -82,7 +82,6 @@ const GuestPage = ({roomID, setRoomID}) => {
       let tempArray = users;
       tempArray.splice(userIndex, 1);
       setUsers(tempArray);
-      setDeleteRequest(true);
       setUpdated(true);
     }
   }
@@ -117,6 +116,8 @@ const GuestPage = ({roomID, setRoomID}) => {
     e.preventDefault();
     localStorage.clear();
     await deleteSelf();
+    setLeaveRequest(true);
+    setUpdated(true);
   }
 
   return (
