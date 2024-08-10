@@ -78,7 +78,7 @@ function App() {
     <div id="App">
       <h1>A.R.M.</h1>
       <h4>Assistance Request Mechanism</h4>
-      <img src="/src/assets/Logo.ico" alt="A.R.M. Logo"></img>
+      <img src="/src/assets/Logo.png" alt="A.R.M. Logo"></img>
 
       {getReturnComponent()}
       <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br/> 2024 Site developed by Andre Lee using React.js and Firebase.</h4>
