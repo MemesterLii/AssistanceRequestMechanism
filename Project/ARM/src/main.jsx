@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import App from './App'
 
 // main.jsx is where React first creates its Virtual DOM (Document Object Model).
 // The first true layer (React component) is App.jsx.
