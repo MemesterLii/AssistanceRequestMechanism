@@ -1,10 +1,10 @@
-import './app.css';
+import './App.css';
 import React, {useState, useEffect} from 'react';
 import { database } from './firebase';
 import {doc, onSnapshot} from 'firebase/firestore';
-import LandingPage from './components/landingpage';
-import HostPage from './components/hostpage';
-import GuestPage from './components/guestpage';
+import LandingPage from './components/LandingPage';
+import HostPage from './components/HostPage';
+import GuestPage from './components/GuestPage';
 
 // App.jsx is the first component (layer of the onion).
 function App() {

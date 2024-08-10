@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { database } from '../firebase';
 import {query, onSnapshot, setDoc, doc} from 'firebase/firestore';
-import GuestForm from './guestform';
-import EditUserForm from './edituserform';
-import SelfGuestView from './selfguestview';
-import UserGuestView from './userguestview';
+import GuestForm from './GuestForm';
+import EditUserForm from './EditUserForm';
+import SelfGuestView from './SelfGuestView';
+import UserGuestView from './UserGuestView';
 import {v4 as uuidv4} from 'uuid';
 uuidv4();
 
