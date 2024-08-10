@@ -6,13 +6,20 @@ import LandingPage from './components/LandingPage';
 import HostPage from './components/HostPage';
 import GuestPage from './components/GuestPage';
 
+// App.jsx is the first component (layer of the onion).
 function App() {
+  // useState() variables (state variables) are special variables that, upon
+  // having their value changed through their setter function, trigger React's
+  // re-rendering of this component and child components (lower layers) upon
+  // changing. These re-renders change the website without reloads or redirects.
   const [roomID, setRoomID] = useState('');
   const [isHost, setIsHost] = useState();
   const [allTimeVisits, setAllTimeVisits] = useState(0);
 
   //Keeps user in their room across website reloads.
-  //NOTE: useEffect() is like Unity's Update function. It runs every time the virtual DOM renders.
+  //NOTE: useEffect() is like Unity's Update function.
+  // It runs every time the virtual DOM renders.
+  // By passing in state variables
   useEffect(() => {
     const localID = localStorage.getItem(`LocalID`);
     const localRoomID = localStorage.getItem(`LocalRoomID`);
