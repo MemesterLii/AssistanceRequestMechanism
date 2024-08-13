@@ -75,6 +75,8 @@ h4 {
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 75%;
+  /* The following CSS styling makes text get truncated with an ellipse
+  when the monitor is too narrow. */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

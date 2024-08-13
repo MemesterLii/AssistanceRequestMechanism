@@ -4,15 +4,15 @@ const GuestForm = ({addUser}) => {
   const [newUserName, setNewUserName] = useState('');
   const maxNameLength = 30;
 
-  //Prevent the default function. If newUserName is not an empty value ("", " ", "  ", etc.), call the
-  //addUser function with newUserName.
+  // If newUserName is not an empty value ("", " ", "  ", etc.), call the
+  // addUser() function with newUserName.
   const handleSubmit = e => {
     e.preventDefault();
     if (newUserName != false) {
       addUser(newUserName);
       setNewUserName('');
-    }
-  }
+    };
+  };
 
   return (
     <form className="GuestForm" onSubmit={handleSubmit}>
@@ -22,7 +22,7 @@ const GuestForm = ({addUser}) => {
         setNewUserName(e.target.value.toString())}/>
       <button type="submit" className="submit-btn">Request Help</button>
     </form>
-  )
-}
+  );
+};
 
-export default GuestForm
+export default GuestForm;

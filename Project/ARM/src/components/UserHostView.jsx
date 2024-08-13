@@ -1,8 +1,9 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTrash} from '@fortawesome/free-solid-svg-icons';
 
 const UserHostView = ({user, position, deleteUser}) => {
+  // User Host View can only delete, since it would be the host's perspective.
   const getReturnComponent = () => {
     let returnComponent;
     if (user.isEditing){
@@ -10,9 +11,9 @@ const UserHostView = ({user, position, deleteUser}) => {
     }
     else{
       returnComponent = <p onClick={() => deleteUser(user.ID)} className="display-name">{position}. {user.DisplayName}</p>;
-    }
+    };
     return returnComponent;
-  }
+  };
 
   return (
     <div id='UserHostView'>
@@ -21,7 +22,7 @@ const UserHostView = ({user, position, deleteUser}) => {
         <FontAwesomeIcon icon={faTrash} onClick={() => deleteUser(user.ID)}/>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserHostView
+export default UserHostView;

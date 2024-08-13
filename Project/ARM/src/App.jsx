@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import { database } from './firebase';
+import {database} from './firebase';
 import {doc, onSnapshot} from 'firebase/firestore';
 import LandingPage from './components/LandingPage';
 import HostPage from './components/HostPage';
@@ -19,25 +19,27 @@ function App() {
   //Keeps user in their room across website reloads.
   //NOTE: useEffect() is like Unity's Update function.
   // It runs every time the virtual DOM renders.
-  // By passing in state variables
+  // If state variables are passed into the array parameter,
+  // then it only runs when those states update.
   useEffect(() => {
     const localID = localStorage.getItem(`LocalID`);
     const localRoomID = localStorage.getItem(`LocalRoomID`);
     if(localRoomID != null && localID != null){
       const docRef = doc(database, 'Rooms', localRoomID);
-      //NOTE: onSnapshot() runs everytime the Firebase database senses a change.
+      //NOTE: onSnapshot() runs every time the Firebase database senses a change.
       onSnapshot(docRef, (querySnapshot) => {
         //NOTE: use querySnapshot.data() not just querySnapshot to boot out guest upon host deleting room.
         if (querySnapshot.data() != undefined){
           setRoomID(localRoomID);
           if (localID.trim() == querySnapshot.data().HostID.trim()){
-            setIsHost(true)
+            setIsHost(true);
           }
           else{
             setIsHost(false);
           }
         }
         else{
+          // If room does not exist, then clear state and local data.
           setRoomID(undefined);
           setIsHost(undefined);
           localStorage.clear();
@@ -45,12 +47,14 @@ function App() {
       })
     }
     else{
+      // If local storage is incomplete, then clear state and local data.
       setRoomID(undefined);
       setIsHost(undefined);
       localStorage.clear();
     }
   }, []);
 
+  // Updates the All Time Visits counter.
   const statRef = doc(database, 'Statistics', 'AllTimeVisits');
   onSnapshot(statRef, (querySnapshot) => {
     if (querySnapshot.data() != undefined){
@@ -62,28 +66,31 @@ function App() {
     let returnComponent;
     if (roomID){
       if(isHost){
+        // NOTE: React components can also take arguments.
         returnComponent = <HostPage roomID={roomID} setRoomID={setRoomID}/>;
       }
       else{
         returnComponent = <GuestPage roomID={roomID} setRoomID={setRoomID}/>;
-      }
+      };
     }
     else{
         returnComponent = <LandingPage setRoomID={setRoomID} setIsHost={setIsHost} allTimeVisits={allTimeVisits}/>;
-    }
+    };
     return returnComponent;
   };
   
+  // NOTE: The HTML elements in the return statement of a React component are
+  // what is rendered.
   return (
     <div id="App">
       <h1>A.R.M.</h1>
       <h4>Assistance Request Mechanism</h4>
-      <img src="/src/assets/Logo.png" alt="A.R.M. Logo"></img>
+      <img src="/src/assets/logo.png" alt="A.R.M. Logo"></img>
 
       {getReturnComponent()}
       <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br/> 2024 Site developed by Andre Lee using React.js and Firebase.</h4>
     </div>
-  )
+  );
 };
 
-export default App
+export default App;
