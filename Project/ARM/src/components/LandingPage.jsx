@@ -75,9 +75,11 @@ const LandingPage = ({setRoomID, setIsHost, allTimeVisits}) => {
     // e.preventDefault() is necessary to keep submit functions functional.
     e.preventDefault();
     landingPageRoomID = await addRoom();
-    await setDoc(statRef, {
-      Count: allTimeVisits + 1
-    });
+    if(allTimeVisits > 0){
+      await setDoc(statRef, {
+        Count: allTimeVisits + 1
+      });  
+    };
 
     // These state setter functions that were passed in as an argument of this
     // Landing Page component from App will set the states within App.

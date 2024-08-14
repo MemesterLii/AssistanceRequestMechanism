@@ -20,9 +20,11 @@ const RoomForm = ({rooms, setRoomID, allTimeVisits}) => {
     e.preventDefault();
     if (rooms.includes(newRoomID)){
       const newUserID = uuidv4();
-      await setDoc(doc(database, "Statistics", "AllTimeVisits"), {
-        Count: allTimeVisits + 1
-      });
+      if(allTimeVisits > 0){
+        await setDoc(doc(database, "Statistics", "AllTimeVisits"), {
+          Count: allTimeVisits + 1
+        });
+      };
       updateLocalStorage(newUserID, newRoomID);
       setRoomID(newRoomID);
     }
