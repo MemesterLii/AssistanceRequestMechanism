@@ -21,11 +21,12 @@ const RoomForm = ({rooms, setRoomID, allTimeVisits}) => {
     if (rooms.includes(newRoomID)){
       const newUserID = uuidv4();
       if(allTimeVisits > 0){
-        await setDoc(doc(database, "Statistics", "AllTimeVisits"), {
+        const statRef = doc(database, 'Statistics', 'AllTimeVisits');
+        await setDoc(statRef, {
           Count: allTimeVisits + 1
         });
       };
-      updateLocalStorage(newUserID, newRoomID);
+      await updateLocalStorage(newUserID, newRoomID);
       setRoomID(newRoomID);
     }
     else {

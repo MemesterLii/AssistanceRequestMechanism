@@ -43,7 +43,6 @@ const HostPage = ({roomID, setRoomID}) => {
       let tempArray = users;
       tempArray.splice(userIndex, 1);
       setUsers(tempArray);
-      const docRef = doc(database, "Rooms", roomID);
       await setDoc(docRef, {
         HostID: hostID,
         Users: users
@@ -53,11 +52,11 @@ const HostPage = ({roomID, setRoomID}) => {
 
   const deleteRoom = async (e) => {
     e.preventDefault();
-    await deleteDoc(doc(database, "Rooms", roomID));
+    await deleteDoc(docRef);
     localStorage.clear();
-    setUsers([]);
-    setHostID('');
-    setRoomID('');
+    await setUsers([]);
+    await setHostID('');
+    await setRoomID('');
   };
 
   return (
