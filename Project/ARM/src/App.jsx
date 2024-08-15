@@ -88,7 +88,7 @@ function App() {
       <img src="/src/assets/logo.png" alt="A.R.M. Logo"></img>
 
       {getReturnComponent()}
-      <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br/> 2024 Site developed by Andre Lee using React.js and Firebase.</h4>
+      <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br/> 2024 Site developed by Andre Lee using React.js and Firebase. <br/> Version 1.0</h4>
     </div>
   );
 };
