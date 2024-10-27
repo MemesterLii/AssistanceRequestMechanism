@@ -78,7 +78,7 @@ const LandingPage = ({setRoomID, setIsHost, allTimeVisits}) => {
     if(allTimeVisits > 0){
       await setDoc(statRef, {
         Count: allTimeVisits + 1
-      });
+      });  
     };
 
     // These state setter functions that were passed in as an argument of this
