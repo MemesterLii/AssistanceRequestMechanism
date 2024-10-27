@@ -2,7 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-// TODO: Add SDKs for Firebase products that you want to use
+// CREDITS: the set up process of linking a Firebase database to this web app
+// was implemented from this YouTube video:
+// https://www.youtube.com/watch?v=drF8HbnW87w
+
+// ARM: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration

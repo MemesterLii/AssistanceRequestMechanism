@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
 
+// CREDITS: the fundamental structure and function of this page remains unchanged
+// from the React To-Do List YouTube tutorial here:
+// https://www.youtube.com/watch?v=LoYbN6qoQHA
+
 const GuestForm = ({addUser}) => {
   const [newUserName, setNewUserName] = useState('');
   const maxNameLength = 30;

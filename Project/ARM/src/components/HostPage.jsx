@@ -5,6 +5,12 @@ import UserHostView from './UserHostView';
 import {v4 as uuidv4} from 'uuid';
 uuidv4();
 
+// CREDITS: I learned how to utilize React hooks through this YouTube video:
+// https://www.youtube.com/watch?v=LoYbN6qoQHA
+// Getting and setting data in Google's Firebase databases were learned through
+// this video:
+// https://www.youtube.com/watch?v=drF8HbnW87w
+
 const HostPage = ({roomID, setRoomID}) => {
   const [users, setUsers] = useState([]);
   const [hostID, setHostID] = useState('');

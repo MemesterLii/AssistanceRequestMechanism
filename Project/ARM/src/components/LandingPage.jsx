@@ -5,6 +5,12 @@ import RoomForm from './RoomForm';
 import {v4 as uuidv4} from 'uuid';
 uuidv4();
 
+// CREDITS: I learned how to utilize React hooks through this YouTube video:
+// https://www.youtube.com/watch?v=LoYbN6qoQHA
+// Getting and setting data in Google's Firebase databases were learned through
+// this video:
+// https://www.youtube.com/watch?v=drF8HbnW87w
+
 const LandingPage = ({setRoomID, setIsHost, allTimeVisits}) => {
   const [inputtingRoomCode, setInputtingRoomCode] = useState();
   const statRef = doc(database, 'Statistics', 'AllTimeVisits');

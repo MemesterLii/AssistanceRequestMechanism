@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+/* CREDITS: the general CSS aside from a color palette change was taken from */
+/* this YouTube video: https://www.youtube.com/watch?v=LoYbN6qoQHA */
+/* The color palette was inspired by GitHub Desktop's color palette. */
+
 * {
   font-family: 'Poppins', sans-serif;
   margin: 0;

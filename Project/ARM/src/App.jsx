@@ -6,6 +6,12 @@ import LandingPage from './components/LandingPage';
 import HostPage from './components/HostPage';
 import GuestPage from './components/GuestPage';
 
+// CREDITS: I learned how to utilize React hooks through this YouTube video:
+// https://www.youtube.com/watch?v=LoYbN6qoQHA
+// Getting and setting data in Google's Firebase databases were learned through
+// this video:
+// https://www.youtube.com/watch?v=drF8HbnW87w
+
 // App.jsx is the first component (layer of the onion).
 function App() {
   // useState() variables (state variables) are special variables that, upon
@@ -88,7 +94,7 @@ function App() {
       <img src="/src/assets/logo.png" alt="A.R.M. Logo"></img>
 
       {getReturnComponent()}
-      <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br/> 2024 Site developed by Andre Lee using React.js and Firebase. <br/> Version 1.2</h4>
+      <h4 id="website-info">All Time Visit Counter: {allTimeVisits} <br/> 2024 Site developed by Andre Lee using React and Firebase. <br/> Many thanks to Dylan Kroft for being a wonderful <br/> web development mentor in the creation of this website!<br/> Version 1.2</h4>
     </div>
   );
 };
